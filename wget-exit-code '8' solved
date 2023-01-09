@@ -1,0 +1,14 @@
+Wget with PHP on CentOS 7
+Got a Wget exit codes 8 - 'Server issued an error response' - no further info.
+Info about 'wget exit codes' from wget-exit-codes.txt [https://gist.github.com/cosimo/5747881]
+Logs can be found here: /var/log/httpd/domains
+I checked domain.xx.error.log and found 'client denied by server configuration'.
+File: domain.xx.error.log
+[Fri Jan 06 14:54:19.087819 2023] [access_compat:error] [pid 13079:tid 140156610647808] [client serverIP:48042]
+AH01797: client denied by server configuration: /some/path/program.php
+
+Something is wrong obviously.
+Then I checked domain.xx.log and found an error '403' 'forbidden'.
+File: domain.xx.log
+serverIP - - [06/Jan/2023:14:54:19 +0100] "GET /program.php HTTP/1.1" 403 60465 "-" "Wget/1.14 (linux-gnu)"
+Solved the 403 - something with '<Files program.php>' code in the .htaccess file - and everything works fine now.
